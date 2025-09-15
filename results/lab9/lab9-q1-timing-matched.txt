@@ -1,0 +1,39 @@
+module testbench;
+    reg C, D;
+    wire Q, Qn;
+
+    ff dut(.c(C), .d(D), .q(Q), .qn(Qn));
+
+    always #10 C = ~C;
+
+    initial begin
+        $dumpfile("dump.vcd"); $dumpvars;
+        $monitor("%6d: C=%b, D=%b, Q=%b, Qn=%b", $time, C, D, Q, Qn);
+        C = 0;
+        D = 0;
+        #20 D = 1;
+        #4  D = 0;
+        #2  D = 1;
+        #9  D = 0;
+        #25 $finish;
+    end
+endmodule
+
+module ff(
+      input c, d
+    , output q, qn
+);
+    // Wires from top to bottom from diagram
+    wire o1, o2, o3, o4;
+    nand #1 (o1,o2,o4);
+    nand #1 (o2,o1,c);
+    nand #1 (o3,o4,c,o2);
+    nand #1 (o4,d,o3);
+
+    // Outputs
+    wire qi, qni;
+    nand #1 (qi,o2,qni);
+    nand #1 (qni,o3,qi);
+    assign #1 q = qi;
+    assign #1 qn = ~qi;
+endmodule

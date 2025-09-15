@@ -1,0 +1,5 @@
+This project sets led colors on WS2812B leds. It uses the expansion portA pin 0 for the data and any 5v source. An "array" of colors is provided in the rainbow module. each color is a 24 bit number in GRB order. The basic idea is to transmit a 0 with a short pulse and a 1 with a longer pulse with a long blank between each "frame" (this project does not make any updates between frames). Attatched is a waveform screenshot from my probes on the project from real measurements.
+
+
+
+WS2812B Datasheet: https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
